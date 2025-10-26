@@ -1,32 +1,27 @@
-// Last updated: 10/26/2025, 6:20:17 PM
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
+// Last updated: 10/26/2025, 7:28:43 PM
 class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode right = head;
-        for (int i = 0; i < n; i++) {
-            right = right.next;
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        char[] charArray = s.toCharArray();
+        for (char c : charArray) {
+            if (c == '(' || c == '[' || c == '{') {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                char popChar = stack.pop();
+                if (c == ')' && popChar != '(') {
+                    return false;
+                }
+                if (c == ']' && popChar != '[') {
+                    return false;
+                }
+                if (c == '}' && popChar != '{') {
+                    return false;
+                }
+            }
         }
-        ListNode left = head;
-        ListNode prev = null;
-        while (right != null) {
-            right = right.next;
-            prev = left;
-            left = left.next;
-        }
-        if (left == head) {
-            return head.next;
-        } else {
-            prev.next = left.next;
-            return head;
-        }
+        return stack.isEmpty();
     }
 }
