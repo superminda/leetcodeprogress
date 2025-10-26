@@ -1,56 +1,32 @@
-// Last updated: 10/26/2025, 6:08:22 PM
+// Last updated: 10/26/2025, 6:20:17 PM
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
+ * Definition for singly-linked list.
+ * public class ListNode {
  *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-
-class CountResult {
-    public final int sum;
-    public final int count;
-    public CountResult(int sum, int count) {
-        this.sum = sum;
-        this.count = count;
-    }
-}
 class Solution {
-    private int result;
-    public int averageOfSubtree(TreeNode root) {
-        this.result = 0;
-        count(root);
-        return this.result;
-    }
-
-    private CountResult count(TreeNode root) {
-        if (root == null) {
-            return null;
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode right = head;
+        for (int i = 0; i < n; i++) {
+            right = right.next;
         }
-        CountResult leftResult = count(root.left);
-        CountResult rightResult = count(root.right);
-        int sum = root.val;
-        int count = 1;
-        if (leftResult != null) {
-            sum += leftResult.sum;
-            count += leftResult.count;
+        ListNode left = head;
+        ListNode prev = null;
+        while (right != null) {
+            right = right.next;
+            prev = left;
+            left = left.next;
         }
-        if (rightResult != null) {
-            sum += rightResult.sum;
-            count += rightResult.count;
+        if (left == head) {
+            return head.next;
+        } else {
+            prev.next = left.next;
+            return head;
         }
-        int avg = sum / count;
-        if (avg == root.val) {
-            this.result++;
-        }
-        return new CountResult(sum, count);
     }
 }
