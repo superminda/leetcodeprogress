@@ -1,27 +1,14 @@
-// Last updated: 10/26/2025, 7:28:43 PM
+// Last updated: 10/26/2025, 8:08:24 PM
 class Solution {
-    public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-        char[] charArray = s.toCharArray();
-        for (char c : charArray) {
-            if (c == '(' || c == '[' || c == '{') {
-                stack.push(c);
-            } else {
-                if (stack.isEmpty()) {
-                    return false;
-                }
-                char popChar = stack.pop();
-                if (c == ')' && popChar != '(') {
-                    return false;
-                }
-                if (c == ']' && popChar != '[') {
-                    return false;
-                }
-                if (c == '}' && popChar != '{') {
-                    return false;
-                }
-            }
+    public int maxSubArray(int[] nums) {
+        int result = Integer.MIN_VALUE;
+        int minPresum = 0;
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+            result = Math.max(result, sum - minPresum);
+            minPresum = Math.min(minPresum, sum);
         }
-        return stack.isEmpty();
+        return result;
     }
 }
