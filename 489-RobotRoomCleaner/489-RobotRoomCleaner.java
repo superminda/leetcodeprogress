@@ -1,4 +1,4 @@
-// Last updated: 11/6/2025, 12:36:01 AM
+// Last updated: 11/6/2025, 12:45:15 AM
 /*
 // Definition for a Node.
 class Node {
@@ -37,6 +37,12 @@ class Solution {
             if (prevNode.val > currNode.val) {
                 maxNode = prevNode;
             }
+
+            if (prevNode.val <= insertVal && currNode.val >= insertVal) {
+                newNode.next = currNode;
+                prevNode.next = newNode;
+                return head;
+            }
             prevNode = currNode;
             currNode = currNode.next;
         } while (prevNode != head);
@@ -44,16 +50,6 @@ class Solution {
         if (minNode.val == maxNode.val || minNode.val >= insertVal || maxNode.val <= insertVal) {
             maxNode.next = newNode;
             newNode.next = minNode;
-        } else {
-            Node thisNode = minNode;
-            while (thisNode != maxNode) {
-                if (thisNode.val <= insertVal && thisNode.next.val >= insertVal) {
-                    newNode.next = thisNode.next;
-                    thisNode.next = newNode;
-                    break;
-                }
-                thisNode = thisNode.next;
-            }
         }
         return head;
     }
