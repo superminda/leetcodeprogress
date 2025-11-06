@@ -1,63 +1,60 @@
-// Last updated: 11/4/2025, 11:55:04 PM
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
-class Solution {
-    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        List<Integer> result = new ArrayList<>();
-        if (k == 0) {
-            result.add(target.val);
-            return result;
-        }
-        Map<TreeNode, List<TreeNode>> map = new HashMap<>();
-        traverse(root, map, null);
-        int count = 0;
-        Queue<TreeNode> queue = new LinkedList<>();
-        Set<TreeNode> visited = new HashSet<>();
-        queue.offer(target);
-        visited.add(target);
-        while (!queue.isEmpty() && count < k) {
-            count++;
-            int size = queue.size();
-            while (size-- > 0) {
-                TreeNode thisNode = queue.poll();
-                for (TreeNode neighbor : map.get(thisNode)) {
-                    if (!visited.contains(neighbor)) {
-                        queue.offer(neighbor);
-                        visited.add(neighbor);
-                        if (count == k) {
-                            result.add(neighbor.val);
-                        }
-                    }
-                }
-            }
-        }
+// Last updated: 11/6/2025, 12:36:01 AM
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node next;
 
-        return result;
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
     }
 
-    private void traverse(TreeNode node, Map<TreeNode, List<TreeNode>> map, TreeNode parent) {
-        if (node == null) {
-            return;
+    public Node(int _val, Node _next) {
+        val = _val;
+        next = _next;
+    }
+};
+*/
+
+class Solution {
+    public Node insert(Node head, int insertVal) {
+        Node newNode = new Node(insertVal);
+        if (head == null) {
+            newNode.next = newNode;
+            return newNode;
         }
-        List<TreeNode> neighbors = new ArrayList<>();
-        if (parent != null) {
-            neighbors.add(parent);
+        if (head.next == head) {
+            newNode.next = head;
+            head.next = newNode;
+            return head;
         }
-        if (node.left != null) {
-            neighbors.add(node.left);
-            traverse(node.left, map, node);
+        Node maxNode = head;
+        Node currNode = head.next;
+        Node prevNode = head;
+        do {
+            if (prevNode.val > currNode.val) {
+                maxNode = prevNode;
+            }
+            prevNode = currNode;
+            currNode = currNode.next;
+        } while (prevNode != head);
+        Node minNode = maxNode.next;
+        if (minNode.val == maxNode.val || minNode.val >= insertVal || maxNode.val <= insertVal) {
+            maxNode.next = newNode;
+            newNode.next = minNode;
+        } else {
+            Node thisNode = minNode;
+            while (thisNode != maxNode) {
+                if (thisNode.val <= insertVal && thisNode.next.val >= insertVal) {
+                    newNode.next = thisNode.next;
+                    thisNode.next = newNode;
+                    break;
+                }
+                thisNode = thisNode.next;
+            }
         }
-        if (node.right != null) {
-            neighbors.add(node.right);
-            traverse(node.right, map, node);
-        }
-        map.put(node, neighbors);
+        return head;
     }
 }
