@@ -1,4 +1,4 @@
-// Last updated: 12/1/2025, 10:52:56 PM
+// Last updated: 12/1/2025, 11:34:32 PM
 1/**
 2 * Definition for singly-linked list.
 3 * public class ListNode {
@@ -10,28 +10,33 @@
 9 * }
 10 */
 11class Solution {
-12    public ListNode mergeKLists(ListNode[] lists) {
-13        int k = lists.length;
-14        if (k == 0) {
-15            return null;
-16        }
-17        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(k, (a, b) -> (a.val - b.val));
-18        for (ListNode list : lists) {
-19            if (list == null) {
-20                continue;
+12    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+13        ListNode dummyNode = new ListNode();
+14        ListNode currentNode = dummyNode;
+15        int carry = 0;
+16        while (l1 != null || l2 != null) {
+17            int sum = carry;
+18            if (l1 != null) {
+19                sum += l1.val;
+20                l1 = l1.next;
 21            }
-22            heap.offer(list);
-23        }
-24        ListNode dummyNode = new ListNode();
-25        ListNode currentNode = dummyNode;
-26        while (!heap.isEmpty()) {
-27            ListNode pollNode = heap.poll();
-28            currentNode.next = pollNode;
-29            currentNode = pollNode;
-30            if (pollNode.next != null) {
-31                heap.offer(pollNode.next);
-32            }
-33        }
-34        return dummyNode.next;
-35    }
-36}
+22            if (l2 != null) {
+23                sum += l2.val;
+24                l2 = l2.next;
+25            }
+26            if (sum >= 10) {
+27                carry = 1;
+28            } else {
+29                carry = 0;
+30            }
+31            ListNode newNode = new ListNode(sum % 10);
+32            currentNode.next = newNode;
+33            currentNode = newNode;
+34        }
+35        if (carry != 0) {
+36            ListNode newNode = new ListNode(carry);
+37            currentNode.next = newNode;
+38        }
+39        return dummyNode.next;
+40    }
+41}
