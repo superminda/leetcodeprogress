@@ -1,4 +1,4 @@
-// Last updated: 12/2/2025, 1:33:24 AM
+// Last updated: 12/2/2025, 1:37:18 AM
 1class Solution {
 2    private static int[] xMoves = {-1, 0, 1, 0};
 3    private static int[] yMoves = {0, 1, 0, -1};
@@ -53,32 +53,30 @@
 52                        continue;
 53                    }
 54                    int thisGroup = findGroup(groups, newX, newY);
-55                    if (groupSet.contains(thisGroup)) {
-56                        continue;
+55                    if (groupSet.add(thisGroup)) {
+56                        thisCount += count[thisGroup];
 57                    }
-58                    groupSet.add(thisGroup);
-59                    thisCount += count[thisGroup];
-60                }
-61                result = Math.max(result, thisCount);
-62            }
-63        }
-64        return result;
-65    }
-66    
-67    private void union(int[][] groups, int x1, int y1, int x2, int y2) {
-68        int group1 = findGroup(groups, x1, y1);
-69        int group2 = findGroup(groups, x2, y2);
-70        int group1X = (group1 - 1) / groups.length;
-71        int group1Y = (group1 - 1) % groups.length;
-72        groups[group1X][group1Y] = group2;
-73    }
-74
-75    private int findGroup(int[][] groups, int x, int y) {
-76        if ((groups[x][y] - 1) / groups.length == x && y == (groups[x][y] - 1) % groups.length) {
-77            return groups[x][y];
-78        }
-79        int fatherGroup = findGroup(groups, (groups[x][y] - 1) / groups.length, (groups[x][y] - 1) % groups.length);
-80        groups[x][y] = fatherGroup;
-81        return fatherGroup;
-82    }
-83}
+58                }
+59                result = Math.max(result, thisCount);
+60            }
+61        }
+62        return result;
+63    }
+64    
+65    private void union(int[][] groups, int x1, int y1, int x2, int y2) {
+66        int group1 = findGroup(groups, x1, y1);
+67        int group2 = findGroup(groups, x2, y2);
+68        int group1X = (group1 - 1) / groups.length;
+69        int group1Y = (group1 - 1) % groups.length;
+70        groups[group1X][group1Y] = group2;
+71    }
+72
+73    private int findGroup(int[][] groups, int x, int y) {
+74        if ((groups[x][y] - 1) / groups.length == x && y == (groups[x][y] - 1) % groups.length) {
+75            return groups[x][y];
+76        }
+77        int fatherGroup = findGroup(groups, (groups[x][y] - 1) / groups.length, (groups[x][y] - 1) % groups.length);
+78        groups[x][y] = fatherGroup;
+79        return fatherGroup;
+80    }
+81}
