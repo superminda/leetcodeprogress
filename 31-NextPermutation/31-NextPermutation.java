@@ -1,34 +1,27 @@
-// Last updated: 12/3/2025, 12:40:48 AM
+// Last updated: 12/4/2025, 12:25:27 AM
 1class Solution {
-2
-3    private static char DELIMILTER = ' ';
-4    private static String MA = "ma";
-5    private static String A = "a";
-6    public String toGoatLatin(String sentence) {
-7        String[] strs = sentence.split("\\s+");
-8        StringBuilder sb = new StringBuilder();
-9        for (int index = 0; index < strs.length; index++) {
-10            char[] charArray = strs[index].toCharArray();
-11            if (index != 0) {
-12                sb.append(DELIMILTER);
-13            }
-14            if (isVowel(charArray[0])) {
-15                sb.append(strs[index]);
-16            } else {
-17                for (int i = 1; i < charArray.length; i++) {
-18                    sb.append(charArray[i]);
-19                }
-20                sb.append(charArray[0]);
-21            }
-22            sb.append(MA);
-23            for (int i = 0; i <= index; i++) {
-24                sb.append(A);
-25            }
-26        }
-27        return sb.toString();
-28    }
-29
-30    private boolean isVowel(char c) {
-31        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
-32    }
-33}
+2    public List<List<Integer>> subsets(int[] nums) {
+3        List<List<Integer>> result = new ArrayList<>();
+4        List<Integer> subResult = new ArrayList<>();
+5        List<Integer> emptyResult = new ArrayList<>();
+6        result.add(emptyResult);
+7        for (int i = 0; i < nums.length; i++) {
+8            dfs(nums, i, result, subResult);
+9        }
+10        return result;
+11    }
+12
+13    private void dfs(int[] nums, int index, List<List<Integer>> result, List<Integer> subResult) {
+14        if (index == nums.length) {
+15            return;
+16        }
+17        subResult.add(nums[index]);
+18        List<Integer> newSubResult = new ArrayList<>();
+19        newSubResult.addAll(subResult);
+20        result.add(newSubResult);
+21        for (int i = index + 1; i < nums.length; i++) {
+22            dfs(nums, i, result, subResult);
+23        }
+24        subResult.remove(subResult.size() - 1);
+25    }
+26}
