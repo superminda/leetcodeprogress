@@ -1,59 +1,31 @@
-// Last updated: 12/4/2025, 1:49:03 AM
+// Last updated: 12/5/2025, 12:00:08 AM
 1class Solution {
-2    public int threeSumClosest(int[] nums, int target) {
-3        int closestSum = (int)1E7;
-4        Arrays.sort(nums);
-5        for (int i = 0; i < nums.length - 2; i++) {
-6            for (int j = i + 1; j < nums.length - 1; j++) {
-7                int targetNum = target - nums[i] - nums[j];
-8                int index = findBiggestNumberIndexSmallerOrEqual(nums, targetNum, j + 1);
-9                if (index == -1) {
-10                    int sumDiff = Math.abs(targetNum - nums[j + 1]);
-11                    if (sumDiff < Math.abs(closestSum - target)) {
-12                        closestSum = nums[i] + nums[j] + nums[j + 1];
-13                    }
-14                } else if (nums[index] == targetNum) {
-15                    return target;
-16                } else if (nums[index] > targetNum) {
-17                    int sumDiff = Math.abs(targetNum - nums[index]);
-18                    if (sumDiff < Math.abs(closestSum - target)) {
-19                        closestSum = nums[i] + nums[j] + nums[index];
-20                    }
-21                } else {
-22                    int sumDiff = Math.abs(targetNum - nums[index]);
-23                    if (sumDiff < Math.abs(closestSum - target)) {
-24                        closestSum = nums[i] + nums[j] + nums[index];
-25                    }
-26                    if (index + 1 <= nums.length - 1) {
-27                        sumDiff = Math.abs(targetNum - nums[index + 1]);
-28                        if (sumDiff < Math.abs(closestSum - target)) {
-29                            closestSum = nums[i] + nums[j] + nums[index + 1];
-30                        }
-31                    }
-32                }
-33            }
-34        }
-35        return closestSum;
-36    }
-37
-38    private int findBiggestNumberIndexSmallerOrEqual(int[] nums, int targetNum, int startIndex) {
-39        int left = startIndex;
-40        int right = nums.length - 1;
-41        while (left + 1 < right) {
-42            int mid = left + (right - left) / 2;
-43            int midNum = nums[mid];
-44            if (midNum <= targetNum) {
-45                left = mid;
-46            } else {
-47                right = mid - 1;
-48            }
-49        }
-50        if (nums[right] <= targetNum) {
-51            return right;
-52        } else if (nums[left] <= targetNum) {
-53            return left;
-54        } else {
-55            return -1;
-56        }
-57    }
-58}
+2    public int maximumSwap(int num) {
+3        char[] charArray = String.valueOf(num).toCharArray();
+4        for (int i = 0; i < charArray.length; i++) {
+5            char maxBiggerChar = (char)(charArray[i] + 1);
+6            int maxCharIndex = -1;
+7            for (int j = i + 1; j < charArray.length; j++) {
+8                char thisChar = charArray[j];
+9                if (thisChar >= maxBiggerChar) {
+10                    maxCharIndex = j;
+11                    maxBiggerChar = thisChar;
+12                }
+13            }
+14            if (maxCharIndex == -1) {
+15                continue;
+16            }
+17
+18            char temp = charArray[i];
+19            charArray[i] = charArray[maxCharIndex];
+20            charArray[maxCharIndex] = temp;
+21
+22            int result = 0;
+23            for (int idx = 0; idx < charArray.length; idx++) {
+24                result = 10 * result + (charArray[idx] - '0');
+25            }
+26            return result;
+27        }
+28        return num;
+29    }
+30}
